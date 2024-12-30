@@ -2,6 +2,9 @@ FROM php:8.2-fpm
 
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y \
+    supervisor \
+    procps \
+    gnupg \
     iputils-ping \
     redis-tools \
     default-mysql-client \
@@ -67,8 +70,6 @@ RUN apt-get update && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 
-
-RUN apt-get update && apt-get install -y supervisor procps gnupg
 RUN mkdir -p /var/log/supervisor
 RUN touch /etc/supervisor/conf.d/supervisord.conf
 
