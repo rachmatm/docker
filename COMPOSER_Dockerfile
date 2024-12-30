@@ -1,0 +1,7 @@
+FROM composer
+
+RUN apk add --virtual build-dependencies --no-cache autoconf gcc g++ make freetype-dev zlib-dev libpng-dev libjpeg-turbo-dev libmcrypt-dev openssl ca-certificates libxml2-dev
+
+RUN docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/freetype2/ --with-jpeg=/usr/include/
+RUN docker-php-ext-install gd
+RUN docker-php-ext-enable gd

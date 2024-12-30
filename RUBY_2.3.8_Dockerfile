@@ -1,0 +1,71 @@
+# Use an older Debian or Ubuntu base image compatible with Ruby 2.3.8
+FROM ubuntu:16.04
+
+# Update system and install dependencies
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y \
+    apt-utils \
+    curl \
+    git \
+    build-essential \
+    libssl-dev \
+    libreadline-dev \
+    curl \
+    supervisor \
+    procps \
+    gnupg \
+    iputils-ping \
+    redis-tools \
+    mysql-client \
+    libmysqlclient-dev \
+    procps \
+    g++ \
+    cron \
+    libbz2-dev \
+    libc-client-dev \
+    libedit-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libjpeg-turbo8-dev \
+    libkrb5-dev \
+    libldap2-dev \
+    libldb-dev \
+    libmagickwand-dev \
+    libmcrypt-dev \
+    libmemcached-dev \
+    libpng-dev \
+    libpq-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libreadline-dev \
+    libxslt1-dev \
+    libzip-dev \
+    libyaml-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libcurl4-openssl-dev \
+    memcached \
+    wget \
+    unzip \
+    zlib1g-dev \
+    exif \
+    gettext \
+    imagemagick \
+    jpeginfo \
+    && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
+
+# Install Ruby 2.3.8
+RUN curl -sSL https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.8.tar.gz | tar -xz && \
+    cd ruby-2.3.8 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf ruby-2.3.8
+
+RUN mkdir -p /var/log/supervisor
+RUN touch /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["supervisord"]
